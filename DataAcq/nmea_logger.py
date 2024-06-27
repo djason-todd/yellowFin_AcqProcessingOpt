@@ -1,6 +1,7 @@
 import serial
 import datetime
 import os
+import logging
 from datetime import date
 from setSysClockFromGGA import setClockfromGGA
 
@@ -8,6 +9,9 @@ serialPort = '/dev/ttyACM1'
 setClockfromGGA(serialPort)
 
 BUFFER_SIZE = 100
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 with serial.Serial(port=serialPort, baudrate=115200, bytesize=8,
                    timeout=2, stopbits=serial.STOPBITS_ONE) as ser:
@@ -18,7 +22,7 @@ with serial.Serial(port=serialPort, baudrate=115200, bytesize=8,
     
     if not os.path.exists(path):
         os.makedirs(path)
-        print(f"Made Directory {path}")
+        logging.info(f"Made Directory {path}")
     
     file_name = f"./Data/nmeadata/{d4}/{currTS2}.dat"
     file1 = open(file_name, 'w')
